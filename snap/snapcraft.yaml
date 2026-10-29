@@ -1,0 +1,52 @@
+name: oxlint
+base: core26
+version: '1.90.0'
+title: Oxlint
+summary: Fast JavaScript and TypeScript linter
+description: |
+  Oxlint checks JavaScript and TypeScript projects with built-in lint rules,
+  automatic fixes and a language server. This snap provides the standalone
+  command-line application distributed through GitHub releases.
+license: MIT
+grade: stable
+confinement: strict
+icon: snap/gui/oxlint.png
+website: https://oxc.rs/docs/guide/usage/linter
+source-code:
+  - https://github.com/oxc-project/oxc
+  - https://github.com/sidalit/oxlint-snap
+issues:
+  - https://github.com/oxc-project/oxc/issues
+  - https://github.com/sidalit/oxlint-snap/issues
+contact: https://github.com/sidalit/oxlint-snap/issues
+
+platforms:
+  amd64:
+  arm64:
+
+apps:
+  oxlint:
+    command: bin/oxlint
+    plugs:
+      - home
+      - removable-media
+
+parts:
+  oxlint:
+    plugin: rust
+    source: https://github.com/oxc-project/oxc.git
+    source-tag: oxlint_v$SNAPCRAFT_PROJECT_VERSION
+    source-depth: 1
+    rust-path: [apps/oxlint]
+    rust-features: [allocator]
+    build-packages:
+      - build-essential
+      - clang
+      - cmake
+    build-environment:
+      - CARGO_BUILD_JOBS: $CRAFT_PARALLEL_BUILD_COUNT
+      - TARGET_CC: clang
+    override-build: |
+      craftctl default
+      install -Dm644 LICENSE THIRD-PARTY-LICENSE \
+        -t "$CRAFT_PART_INSTALL/share/doc/oxlint"
