@@ -1,6 +1,6 @@
 name: oxlint
 base: core26
-version: '1.90.0'
+version: '1.92.0'
 title: Oxlint
 summary: Fast JavaScript and TypeScript linter
 description: |
